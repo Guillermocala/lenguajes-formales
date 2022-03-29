@@ -23,7 +23,8 @@ def cerradura_alfabeto(lista, cant_palabras, cant_caracteres):
         palabra = ""
         for i in range(cant_caracteres):
             palabra += str(lista[random.randint(0, len(lista) - 1)])
-        lista_resultado.append(palabra)
+        if palabra not in lista_resultado:
+            lista_resultado.append(palabra)
     return lista_resultado
 
 
