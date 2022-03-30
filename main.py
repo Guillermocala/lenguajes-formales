@@ -47,16 +47,13 @@ def cerradura_estrella(lista, potencia):
     lista_resultado = []
     lista_resultado.append([str(x) for x in lista])
     lista_base = lista_resultado[0]
-    for item in range(0, potencia):
-        
-        
+    for item in range(0, potencia - 1):
         lista_temp = []
         for temp in lista_base:
             lista_potencia = [(str(temp) + str(x)) for x in lista_resultado[item]]
             lista_temp.extend(lista_potencia)
         lista_resultado.append(lista_temp)
-    
-    return lista_resultado
+    return lista_resultado[len(lista_resultado) - 1]
 
 
 lista1 = [123, 234, 345]
