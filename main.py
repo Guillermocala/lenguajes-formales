@@ -43,7 +43,23 @@ def inversa_lenguaje(lista):
 def cardinal_lista(lista):
     return len(lista)
 
-lista1 = [123, 234, 345,]
+def cerradura_estrella(lista, potencia):
+    lista_resultado = []
+    lista_resultado.append([str(x) for x in lista])
+    lista_base = lista_resultado[0]
+    for item in range(0, potencia):
+        
+        
+        lista_temp = []
+        for temp in lista_base:
+            lista_potencia = [(str(temp) + str(x)) for x in lista_resultado[item]]
+            lista_temp.extend(lista_potencia)
+        lista_resultado.append(lista_temp)
+    
+    return lista_resultado
+
+
+lista1 = [123, 234, 345]
 lista2 = ["a", "e", "i"]
 print("lista1: ", lista1)
 print("lista2: ", lista2)
@@ -54,5 +70,7 @@ print("Interseccion: ", interseccion_listas(lista1, lista2))
 cant_palabras = int(input("Ingrese la cantidad de palabras para la cerradura: "))
 print("Cerradura: ", cerradura_alfabeto(lista1, cant_palabras))
 print("Concatenacion: ", concatenacion(lista1, lista2))
-print("Inversa: ", inversa_lenguaje(lista1))"""
-print("Cardinal: ", cardinal_lista(lista1))
+print("Inversa: ", inversa_lenguaje(lista1))
+print("Cardinal: ", cardinal_lista(lista1))"""
+expo = int(input("Ingrese el exponente de la cerradura: "))
+print("Cerradura lista2:", cerradura_estrella(lista2, expo))
