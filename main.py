@@ -1,4 +1,5 @@
 import random
+import clases
 def union_listas(lista1, lista2):
     lista_resultado = set(lista1) | set(lista2)
     return lista_resultado
@@ -56,7 +57,7 @@ def cerradura_estrella(lista, potencia):
     return lista_resultado[len(lista_resultado) - 1]
 
 
-lista1 = [123, 234, 345]
+lista1 = [123, 234, 345, "a", "e"]
 lista2 = ["a", "e", "i"]
 print("lista1: ", lista1)
 print("lista2: ", lista2)
@@ -68,6 +69,19 @@ cant_palabras = int(input("Ingrese la cantidad de palabras para la cerradura: ")
 print("Cerradura: ", cerradura_alfabeto(lista1, cant_palabras))
 print("Concatenacion: ", concatenacion(lista1, lista2))
 print("Inversa: ", inversa_lenguaje(lista1))
-print("Cardinal: ", cardinal_lista(lista1))"""
+print("Cardinal: ", cardinal_lista(lista1))
 expo = int(input("Ingrese el exponente de la cerradura: "))
-print("Cerradura lista2:", cerradura_estrella(lista2, expo))
+print("Cerradura lista2:", cerradura_estrella(lista2, expo))"""
+
+obj1 = clases.Alfabetos()
+obj1.add_lista(lista2)
+obj1.add_lista(lista1)
+
+print("union: ", obj1.union(0, 1))
+print("diferencia: ", obj1.diferencia(0, 1))
+print("interseccion: ", obj1.interseccion(0, 1))
+
+
+
+
+input("pulse una tecla para continuar")
