@@ -2,14 +2,36 @@ import sys
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import (QApplication, QMainWindow, 
     QPushButton, QLabel, QLineEdit, QGridLayout, QWidget,
-    QTabWidget, QComboBox
+    QTabWidget, QComboBox, QVBoxLayout, QHBoxLayout
     )
 
 class AlfabetoWidget(QWidget):
     def __init__(self):
         super().__init__()
-        self.principal = QGridLayout(self)
+        self.principal = QVBoxLayout(self)
+        self.entrada_alfabetos = QHBoxLayout()
+        self.operaciones_alfabetos = QVBoxLayout()
+        self.principal.addLayout(self.entrada_alfabetos)
+        self.principal.addLayout(self.operaciones_alfabetos)
         self.input = QLineEdit()
+        self.input.setPlaceholderText("Ingrese el alfabeto")
+        self.input.setClearButtonEnabled(True)
+        self.button_add = QPushButton("Agregar")
+        self.entrada_alfabetos.addWidget(self.input)
+        self.entrada_alfabetos.addWidget(self.button_add)
+        self.alfabeto1 = QComboBox()
+        self.alfabeto1.setPlaceholderText("Alfabeto 1")
+        self.alfabeto2 = QComboBox()
+        self.alfabeto2.setPlaceholderText("Alfabeto 2")
+        self.operaciones_alfabetos.addWidget(self.alfabeto1)
+        self.operaciones_alfabetos.addWidget(self.alfabeto2)
+        self.button_union = QPushButton("Union")
+        self.button_diff = QPushButton("Diferencia")
+        self.button_inter = QPushButton("Interseccion")
+        self.operaciones_alfabetos.addWidget(self.button_union)
+        self.operaciones_alfabetos.addWidget(self.button_diff)
+        self.operaciones_alfabetos.addWidget(self.button_inter)
+        """self.input = QLineEdit()
         self.input.setPlaceholderText("Ingrese el alfabeto")
         self.input.setClearButtonEnabled(True)
         self.principal.addWidget(self.input, 0, 0)
@@ -20,14 +42,14 @@ class AlfabetoWidget(QWidget):
         self.alfabeto1.setPlaceholderText("Alfabeto 1")
         self.alfabeto2 = QComboBox()
         self.alfabeto2.setPlaceholderText("Alfabeto 2")
-        self.principal.addWidget(self.alfabeto1, 2, 0)
-        self.principal.addWidget(self.alfabeto2, 2, 2)
+        self.principal.addWidget(self.alfabeto1, 2, 0, 2, 1)
+        self.principal.addWidget(self.alfabeto2, 2, 1, 2, 1)
         self.button_union = QPushButton("Union")
         self.principal.addWidget(self.button_union, 3, 0)
         self.button_diff = QPushButton("Diferencia")
         self.principal.addWidget(self.button_diff, 4, 0)
         self.button_inter = QPushButton("Interseccion")
-        self.principal.addWidget(self.button_inter, 5, 0)
+        self.principal.addWidget(self.button_inter, 5, 0)"""
 
     def texto(self):
         res = "texto ingresado: " + self.input.displayText()
