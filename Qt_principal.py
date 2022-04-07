@@ -8,52 +8,51 @@ from PySide6.QtWidgets import (QApplication, QMainWindow,
 class AlfabetoWidget(QWidget):
     def __init__(self):
         super().__init__()
+        #configuracion layouts
         self.principal = QVBoxLayout(self)
-        self.entrada_alfabetos = QHBoxLayout()
+        self.ingreso_alfabetos = QHBoxLayout()
+        self.seleccion_alfabetos = QHBoxLayout()
         self.operaciones_alfabetos = QVBoxLayout()
-        self.principal.addLayout(self.entrada_alfabetos)
+        self.cerradura_alfabeto = QHBoxLayout()
+        self.principal.addLayout(self.ingreso_alfabetos)
+        self.principal.addLayout(self.seleccion_alfabetos)
         self.principal.addLayout(self.operaciones_alfabetos)
-        self.input = QLineEdit()
-        self.input.setPlaceholderText("Ingrese el alfabeto")
-        self.input.setClearButtonEnabled(True)
-        self.button_add = QPushButton("Agregar")
-        self.entrada_alfabetos.addWidget(self.input)
-        self.entrada_alfabetos.addWidget(self.button_add)
+        self.principal.addLayout(self.cerradura_alfabeto)
+        #entrada alfabetos
+        self.entrada_alfabetos = QLineEdit()
+        self.entrada_alfabetos.setPlaceholderText("Ingrese el alfabeto(minimo 2 alfabetos)")
+        self.entrada_alfabetos.setClearButtonEnabled(True)
+        self.button_add = QPushButton("Agregar alfabeto")
+        
+        self.ingreso_alfabetos.addWidget(self.entrada_alfabetos)
+        self.ingreso_alfabetos.addWidget(self.button_add)
+        #seleccion alfabetos
         self.alfabeto1 = QComboBox()
-        self.alfabeto1.setPlaceholderText("Alfabeto 1")
+        self.alfabeto1.setPlaceholderText("Indice alfabeto 1")
         self.alfabeto2 = QComboBox()
-        self.alfabeto2.setPlaceholderText("Alfabeto 2")
-        self.operaciones_alfabetos.addWidget(self.alfabeto1)
-        self.operaciones_alfabetos.addWidget(self.alfabeto2)
+        self.alfabeto2.setPlaceholderText("Indice alfabeto 2")
+        self.seleccion_alfabetos.addWidget(self.alfabeto1)
+        self.seleccion_alfabetos.addWidget(self.alfabeto2)
+        #operaciones alfabetos
         self.button_union = QPushButton("Union")
         self.button_diff = QPushButton("Diferencia")
         self.button_inter = QPushButton("Interseccion")
+        self.button_show = QPushButton("Mostrar alfabetos")
         self.operaciones_alfabetos.addWidget(self.button_union)
         self.operaciones_alfabetos.addWidget(self.button_diff)
         self.operaciones_alfabetos.addWidget(self.button_inter)
-        """self.input = QLineEdit()
-        self.input.setPlaceholderText("Ingrese el alfabeto")
-        self.input.setClearButtonEnabled(True)
-        self.principal.addWidget(self.input, 0, 0)
-        self.button_add = QPushButton("Agregar")
-        self.principal.addWidget(self.button_add, 0, 2)
-        self.button_add.clicked.connect(self.texto)
-        self.alfabeto1 = QComboBox()
-        self.alfabeto1.setPlaceholderText("Alfabeto 1")
-        self.alfabeto2 = QComboBox()
-        self.alfabeto2.setPlaceholderText("Alfabeto 2")
-        self.principal.addWidget(self.alfabeto1, 2, 0, 2, 1)
-        self.principal.addWidget(self.alfabeto2, 2, 1, 2, 1)
-        self.button_union = QPushButton("Union")
-        self.principal.addWidget(self.button_union, 3, 0)
-        self.button_diff = QPushButton("Diferencia")
-        self.principal.addWidget(self.button_diff, 4, 0)
-        self.button_inter = QPushButton("Interseccion")
-        self.principal.addWidget(self.button_inter, 5, 0)"""
-
-    def texto(self):
-        res = "texto ingresado: " + self.input.displayText()
-        print(res)
+        self.operaciones_alfabetos.addWidget(self.button_show)
+        #cerradura alfabeto
+        self.alfabeto_cerradura = QComboBox()
+        self.alfabeto_cerradura.setPlaceholderText("Indice alfabeto")
+        self.cantidad_palabras = QLineEdit()
+        self.cantidad_palabras.setPlaceholderText("Ingrese la cantidad de palabras")
+        self.cantidad_palabras.setClearButtonEnabled(True)
+        self.calcular_cerradura = QPushButton("Generar palabras")
+        self.cerradura_alfabeto.addWidget(self.alfabeto_cerradura)
+        self.cerradura_alfabeto.addWidget(self.cantidad_palabras)
+        self.cerradura_alfabeto.addWidget(self.calcular_cerradura)
+        
 
 class LenguajeWidget(QWidget):
     def __init__(self):
@@ -75,7 +74,7 @@ class LenguajeWidget(QWidget):
 class MyApp(QMainWindow):
     def __init__(self):
         super(MyApp, self).__init__()
-        self.setGeometry(200, 200, 500, 500)
+        self.setGeometry(500, 100, 500, 500)
         self.setWindowTitle("Operador de lenguajes")
         self.initUI()
         self.initMenuBar()
@@ -90,17 +89,15 @@ class MyApp(QMainWindow):
     def initMenuBar(self):
         self.menu_bar = self.menuBar()
         #opcion 1
-        self.opcion1 = self.menu_bar.addMenu("Opcion1")
-        self.subAction11 = self.opcion1.addAction("SubOpcion1")
-        self.subAction12 = self.opcion1.addAction("SubOpcion2")
+        self.opcion1 = self.menu_bar.addMenu("Menu")
+        self.subAction11 = self.opcion1.addAction("Asistente de voz")
         self.subAction11.triggered.connect(self.imprimo)
-        self.subAction12.triggered.connect(self.imprimo)
         self.opcion1.addSeparator()
         self.opcion1.addAction("Exit", self.close)
         #opcion2
-        self.opcion2 = self.menu_bar.addMenu("Opcion2")
-        self.subAction21 = self.opcion2.addAction("SubOpcion1")
-        self.subAction22 = self.opcion2.addAction("SubOpcion2")
+        self.opcion2 = self.menu_bar.addMenu("Lenguaje")
+        self.subAction21 = self.opcion2.addAction("Español")
+        self.subAction22 = self.opcion2.addAction("Ingles")
         self.subAction21.triggered.connect(self.imprimo)
         self.subAction22.triggered.connect(self.imprimo)
     
