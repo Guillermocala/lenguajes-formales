@@ -3,17 +3,17 @@ class Padre:
     def __init__(self):
         self.lista = []
 
-    def add_lista(self, item):
+    def add_item(self, item):
         self.lista.append(item)
+
+    def get_item(self, indice):
+            return self.lista[indice]
 
     def set_lista(self, lista):
         self.lista = lista
     
     def get_lista(self):
         return self.lista
-
-    def get_item(self, indice):
-        return self.lista[indice]
 
     def union(self, indice1, indice2):
         lista_resultado = set(self.lista[indice1]) | set(self.lista[indice2])
@@ -47,7 +47,7 @@ class Alfabetos(Padre):
         return lista_resultado
 
 
-class Lenduajes(Padre):
+class Lenguajes(Padre):
     def generar(self, lista, cant_palabras):
         lista_resultado = []
         for i in range(cant_palabras):
@@ -65,7 +65,6 @@ class Lenduajes(Padre):
         return lista_resultado
     
     def cerradura_estrella(self, indice, exponente):
-        lista_resultado = ['|']
         lista_resultado.append([str(x) for x in self.lista[indice]])
         lista_base = lista_resultado[0]
         for item in range(1, exponente - 1):
