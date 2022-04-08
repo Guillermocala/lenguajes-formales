@@ -54,7 +54,7 @@ class AlfabetoWidget(QWidget):
         self.principal.addLayout(self.seleccion_alfabetos)
         self.principal.addLayout(self.operaciones_alfabetos)
         self.principal.addLayout(self.cerradura_alfabeto)
-        #entrada alfabetos
+        #entrada alfabetos  QLineEdit y button agregar
         self.entrada_alfabetos = QLineEdit()
         self.entrada_alfabetos.setPlaceholderText("Ingrese el alfabeto(separado por coma)")
         self.entrada_alfabetos.setClearButtonEnabled(True)
@@ -62,19 +62,21 @@ class AlfabetoWidget(QWidget):
         self.button_add.clicked.connect(self.ingresa_alfabeto)
         self.ingreso_alfabetos.addWidget(self.entrada_alfabetos)
         self.ingreso_alfabetos.addWidget(self.button_add)
-        #seleccion alfabetos
+        #seleccion alfabetos    comboBox
         self.comboBox_alfabeto1 = QComboBox()
         self.comboBox_alfabeto1.setPlaceholderText("Indice alfabeto 1")
         self.comboBox_alfabeto2 = QComboBox()
         self.comboBox_alfabeto2.setPlaceholderText("Indice alfabeto 2")
         self.seleccion_alfabetos.addWidget(self.comboBox_alfabeto1)
         self.seleccion_alfabetos.addWidget(self.comboBox_alfabeto2)
-        #operaciones alfabetos
+        #operaciones alfabetos  QPushButton y connect
         self.button_union = QPushButton("Union")
         self.button_diff = QPushButton("Diferencia")
         self.button_inter = QPushButton("Interseccion")
         self.button_show = QPushButton("Mostrar alfabetos")
-        self.button_union.clicked.connect(self.union_alfabetos)
+        self.button_union.clicked.connect(self.funciones_alfabetos)
+        self.button_diff.clicked.connect(self.funciones_alfabetos)
+        self.button_inter.clicked.connect(self.funciones_alfabetos)
         self.button_show.clicked.connect(self.mostrar_alfabetos)
         self.operaciones_alfabetos.addWidget(self.button_union)
         self.operaciones_alfabetos.addWidget(self.button_diff)
@@ -110,13 +112,30 @@ class AlfabetoWidget(QWidget):
         lista = self.objeto_alfabetos.get_lista()
         if lista:
             for item in range(len(lista)):
-                print("indice[" + str(item + 1) + "] - lista: " + str(lista[item]))
+                print("indice[", item + 1, "] - lista: ", lista[item])
         else:
             print("No hay elementos")
 
-    def union_alfabetos(self):
+    def funciones_alfabetos(self):
         if len(self.objeto_alfabetos.get_lista()) > 1:
-            print(self.objeto_alfabetos.union(0,1))
+            seleccion1 = self.comboBox_alfabeto1.currentText()
+            seleccion2 = self.comboBox_alfabeto2.currentText()
+            if seleccion1 != "" and seleccion2 != "":
+                boton = self.sender().text()
+                match boton:
+                    case "Union":
+                        print(self.objeto_alfabetos.union(int(seleccion1) - 1, int(seleccion2) - 1))
+                        pass
+                    case "Diferencia":
+                        print(self.objeto_alfabetos.diferencia(int(seleccion1) - 1, int(seleccion2) - 1))
+                        pass
+                    case "Interseccion":
+                        print(self.objeto_alfabetos.interseccion(int(seleccion1) - 1, int(seleccion2) - 1))
+                        pass
+                    case _:
+                        print("excepcion del case -> operaciones_alfabetos")
+            else:
+                print("alguna seleccion esta mal")
         else:
             print("debe ingresar al menos dos alfabetos!")
         
