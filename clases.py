@@ -41,7 +41,7 @@ class Alfabetos(Padre):
         for i in range(cant_palabras):
             palabra = ""
             for i in range(random.randint(2, 5)):
-                palabra += str(lista_objetivo[random.randint(0, len(lista_objetivo) - 1)])
+                palabra += str(random.choice(lista_objetivo))
             if palabra not in lista_resultado:
                 lista_resultado.append(palabra)
         return lista_resultado

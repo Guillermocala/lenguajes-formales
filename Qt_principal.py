@@ -3,7 +3,8 @@ import sys
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import (QApplication, QMainWindow, 
     QPushButton, QLabel, QLineEdit, QGridLayout, QWidget,
-    QTabWidget, QComboBox, QVBoxLayout, QHBoxLayout
+    QTabWidget, QComboBox, QVBoxLayout, QHBoxLayout,
+    QDialog
     )
 
 class MyApp(QMainWindow):
@@ -83,13 +84,14 @@ class AlfabetoWidget(QWidget):
         self.operaciones_alfabetos.addWidget(self.button_inter)
         self.operaciones_alfabetos.addWidget(self.button_show)
         #cerradura alfabeto
-        self.alfabeto_cerradura = QComboBox()
-        self.alfabeto_cerradura.setPlaceholderText("Indice alfabeto")
+        self.comboBox_generar = QComboBox()
+        self.comboBox_generar.setPlaceholderText("Indice alfabeto")
         self.cantidad_palabras = QLineEdit()
         self.cantidad_palabras.setPlaceholderText("Ingrese la cantidad de palabras")
         self.cantidad_palabras.setClearButtonEnabled(True)
         self.calcular_cerradura = QPushButton("Generar palabras")
-        self.cerradura_alfabeto.addWidget(self.alfabeto_cerradura)
+        self.calcular_cerradura.clicked.connect(self.generar_palabras)
+        self.cerradura_alfabeto.addWidget(self.comboBox_generar)
         self.cerradura_alfabeto.addWidget(self.cantidad_palabras)
         self.cerradura_alfabeto.addWidget(self.calcular_cerradura)
 
@@ -100,21 +102,26 @@ class AlfabetoWidget(QWidget):
             lista_alfabetos = cadena_entrada.split(",")
             if lista_alfabetos not in temp.get_lista():
                 temp.add_item(lista_alfabetos)
-                self.comboBox_alfabeto1.addItem(str(len(temp.get_lista())))
-                self.comboBox_alfabeto2.addItem(str(len(temp.get_lista())))
-                print("alfabeto ingresado!")
+                indice = str(len(temp.get_lista()))
+                self.comboBox_alfabeto1.addItem(indice)
+                self.comboBox_alfabeto2.addItem(indice)
+                self.comboBox_generar.addItem(indice)
+                self.alerta("Alfabeto ingresado!")
             else:
-                print("alfabeto repetido, ingrese otro")
+                self.alerta("Alfabeto repetido, ingrese otro!")
         else:
-            print("no hay nada!")
+            self.alerta("El campo ingresar alfabeto está vacío!")
     
     def mostrar_alfabetos(self):
         lista = self.objeto_alfabetos.get_lista()
         if lista:
+            lista_res = []
             for item in range(len(lista)):
-                print("indice[", item + 1, "] - lista: ", lista[item])
+                cadena_temp = ("indice[" + str(item + 1)+ "] - lista: " + str(lista[item]))
+                lista_res.append(cadena_temp)
+            self.alerta(str(lista_res))
         else:
-            print("No hay elementos")
+            self.alerta("No hay elementos para mostrar!")
 
     def funciones_alfabetos(self):
         if len(self.objeto_alfabetos.get_lista()) > 1:
@@ -133,11 +140,36 @@ class AlfabetoWidget(QWidget):
                         print(self.objeto_alfabetos.interseccion(int(seleccion1) - 1, int(seleccion2) - 1))
                         pass
                     case _:
-                        print("excepcion del case -> operaciones_alfabetos")
+                        self.alerta("Excepcion del case -> operaciones_alfabetos")
             else:
-                print("alguna seleccion esta mal")
+                self.alerta("Debe seleccionar 2 indices!")
         else:
-            print("debe ingresar al menos dos alfabetos!")
+            self.alerta("Debe ingresar al menos dos alfabetos!")
+    
+    def generar_palabras(self):
+        if len(self.objeto_alfabetos.get_lista()) > 0:
+            seleccion = self.comboBox_generar.currentText()
+            cant_palabras = self.cantidad_palabras.displayText()
+            if seleccion != "":
+                if cant_palabras != "":
+                    print(self.objeto_alfabetos.cerradura(int(seleccion) - 1, int(cant_palabras)))
+                else:
+                    self.alerta("Debe ingresar la cantidad de palabras!")
+            else:
+                self.alerta("Debe seleccionar el indice!")
+        else:
+            self.alerta("Debe ingresar minimo un alfabeto")
+    
+    def alerta(self, mensaje):
+        dialog = QDialog(self)
+        layout_mensaje = QVBoxLayout()
+        campo_mensaje = QLabel(mensaje)
+        boton_aceptar = QPushButton("Aceptar")
+        boton_aceptar.clicked.connect(dialog.close)
+        layout_mensaje.addWidget(campo_mensaje)
+        layout_mensaje.addWidget(boton_aceptar)
+        dialog.setLayout(layout_mensaje)
+        dialog.exec()
         
 class LenguajeWidget(QWidget):
     def __init__(self, alfabeto):
