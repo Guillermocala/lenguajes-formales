@@ -38,12 +38,16 @@ class Alfabetos(Padre):
     def cerradura(self, indice, cant_palabras):
         lista_resultado = []
         lista_objetivo = self.lista[indice]
-        for i in range(cant_palabras):
+        cont = 0
+        while cont < cant_palabras:
             palabra = ""
-            for i in range(random.randint(2, 5)):
+            for j in range(random.randint(2, 5)):
                 palabra += str(random.choice(lista_objetivo))
             if palabra not in lista_resultado:
                 lista_resultado.append(palabra)
+            else:
+                cont -= 1
+            cont += 1
         return lista_resultado
 
 

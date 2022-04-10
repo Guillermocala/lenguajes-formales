@@ -4,7 +4,7 @@ from PySide6 import QtWidgets
 from PySide6.QtWidgets import (QApplication, QMainWindow, 
     QPushButton, QLabel, QLineEdit, QGridLayout, QWidget,
     QTabWidget, QComboBox, QVBoxLayout, QHBoxLayout,
-    QDialog
+    QDialog, QTableWidget, QTableWidgetItem
     )
 
 class MyApp(QMainWindow):
@@ -115,11 +115,7 @@ class AlfabetoWidget(QWidget):
     def mostrar_alfabetos(self):
         lista = self.objeto_alfabetos.get_lista()
         if lista:
-            lista_res = []
-            for item in range(len(lista)):
-                cadena_temp = ("indice[" + str(item + 1)+ "] - lista: " + str(lista[item]))
-                lista_res.append(cadena_temp)
-            self.alerta(str(lista_res))
+            self.tabla(lista)
         else:
             self.alerta("No hay elementos para mostrar!")
 
@@ -131,13 +127,13 @@ class AlfabetoWidget(QWidget):
                 boton = self.sender().text()
                 match boton:
                     case "Union":
-                        print(self.objeto_alfabetos.union(int(seleccion1) - 1, int(seleccion2) - 1))
+                        self.alerta(str(self.objeto_alfabetos.union(int(seleccion1) - 1, int(seleccion2) - 1)))
                         pass
                     case "Diferencia":
-                        print(self.objeto_alfabetos.diferencia(int(seleccion1) - 1, int(seleccion2) - 1))
+                        self.alerta(str(self.objeto_alfabetos.diferencia(int(seleccion1) - 1, int(seleccion2) - 1)))
                         pass
                     case "Interseccion":
-                        print(self.objeto_alfabetos.interseccion(int(seleccion1) - 1, int(seleccion2) - 1))
+                        self.alerta(str(self.objeto_alfabetos.interseccion(int(seleccion1) - 1, int(seleccion2) - 1)))
                         pass
                     case _:
                         self.alerta("Excepcion del case -> operaciones_alfabetos")
@@ -152,7 +148,7 @@ class AlfabetoWidget(QWidget):
             cant_palabras = self.cantidad_palabras.displayText()
             if seleccion != "":
                 if cant_palabras != "":
-                    print(self.objeto_alfabetos.cerradura(int(seleccion) - 1, int(cant_palabras)))
+                    self.tabla(self.objeto_alfabetos.cerradura(int(seleccion) - 1, int(cant_palabras)))
                 else:
                     self.alerta("Debe ingresar la cantidad de palabras!")
             else:
@@ -169,6 +165,22 @@ class AlfabetoWidget(QWidget):
         layout_mensaje.addWidget(campo_mensaje)
         layout_mensaje.addWidget(boton_aceptar)
         dialog.setLayout(layout_mensaje)
+        dialog.exec()
+    
+    def tabla(self, data):
+        dialog = QDialog(self)
+        layout_data = QVBoxLayout()
+        dialog.setWindowTitle("Tabla datos")
+        tableWidget = QTableWidget(len(data), 1)
+        tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        for item in range(len(data)):
+            newItemValue = QTableWidgetItem(str(data[item]))
+            tableWidget.setItem(item - 1, 1, newItemValue)
+        boton_aceptar = QPushButton("Aceptar")
+        boton_aceptar.clicked.connect(dialog.close)
+        layout_data.addWidget(tableWidget)
+        layout_data.addWidget(boton_aceptar)
+        dialog.setLayout(layout_data)
         dialog.exec()
         
 class LenguajeWidget(QWidget):
